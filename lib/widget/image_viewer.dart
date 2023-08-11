@@ -9,6 +9,8 @@ class ImageViewer extends StatefulWidget {
 
 class _ImageViewerState extends State<ImageViewer> {
   final PageController _pageController = PageController();
+  final ScrollController _dotsScrollController = ScrollController();
+
   int _currentImageIndex = 0;
   void animateToPage(int index) {
     if (index > -1 && index < widget.images.length) {
@@ -18,6 +20,16 @@ class _ImageViewerState extends State<ImageViewer> {
         curve: Curves.easeIn,
       );
     }
+  }
+
+  void animateToDot(int index) {
+    _dotsScrollController.animateTo(
+      16.0 * index > _dotsScrollController.position.maxScrollExtent
+          ? _dotsScrollController.position.maxScrollExtent
+          : 16.0 * index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
   }
 
   @override
@@ -39,6 +51,7 @@ class _ImageViewerState extends State<ImageViewer> {
                 precacheImage(element.image, context);
               }
             });
+            animateToDot(value);
             setState(() {
               _currentImageIndex = value;
             });
@@ -66,18 +79,25 @@ class _ImageViewerState extends State<ImageViewer> {
           ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List<Widget>.generate(
-              widget.images.length,
-              (index) => Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: CircleAvatar(
-                  radius: 6.0,
-                  backgroundColor:
-                      _currentImageIndex == index ? Colors.white : null,
-                ),
+          child: SizedBox(
+            height: 20,
+            child: IgnorePointer(
+              child: ListView.builder(
+                controller: _dotsScrollController,
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemExtent: 16,
+                itemCount: widget.images.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(1.5),
+                    child: CircleAvatar(
+                      radius: 6.0,
+                      backgroundColor:
+                          _currentImageIndex == index ? Colors.white : null,
+                    ),
+                  );
+                },
               ),
             ),
           ),

@@ -52,8 +52,8 @@ class SampleData implements DataSource {
 
   @override
   Future<(List<Widget>, String)> getImagesAndReadMe(String ownerRepo) async {
-    await Future.delayed(const Duration(seconds: 5));
-    return const ([FlutterLogo(), FlutterLogo(), FlutterLogo()], "");
+    await Future.delayed(const Duration(seconds: 2));
+    return (List.generate(30, (index) => const FlutterLogo()), "Test");
   }
 }
 

@@ -27,7 +27,9 @@ class _PostCardState extends State<PostCard> {
             child: FutureBuilder<(List<Widget>, String)>(
               future: dataSource.getImagesAndReadMe(widget.post.fullName),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
+                if (widget.post.images.isNotEmpty && widget.post.readME.isNotEmpty) {
+                  return ImageViewer(images: widget.post.images);
+                } else if (snapshot.hasData) {
                   final (images, readME) = snapshot.data!;
                   widget.post.images = images;
                   widget.post.readME = readME;

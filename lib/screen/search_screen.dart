@@ -40,8 +40,6 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String searchTerm = "";
 
-  
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -120,18 +118,21 @@ class _SearchScreenState extends State<SearchScreen> {
 }
 
 void showSearchResults(BuildContext context, String chipText) {
-    String query = chipText;
-    String queryText = chipText;
-    if (languages.contains(chipText)) {
-      query = "language:$chipText";
-    } else if (ages.containsKey(chipText)) {
-      query = ages[chipText]!;
-    }
-    debugPrint(query);
+  String query = chipText;
+  String queryText = chipText;
+  if (languages.contains(chipText)) {
+    query = "language:$chipText";
+  } else if (ages.containsKey(chipText)) {
+    query = ages[chipText]!;
+  }
+  // debugPrint(query);
+  if (query.isNotEmpty) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PostsPage(key: ValueKey(query), query: query, queryText: queryText),
+        builder: (context) =>
+            PostsPage(query: query, queryText: queryText),
       ),
     );
   }
+}

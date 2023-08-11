@@ -1,6 +1,6 @@
 # SourceGram
 
-an app to explore projects
+an app to explore open source projects
 
 ## Getting Started
 

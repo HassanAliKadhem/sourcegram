@@ -25,13 +25,13 @@ class Post {
 
   factory Post.fromGithubJson(Map<String, dynamic> json) {
     return Post(
-      name: json["name"],
-      fullName: json["full_name"],
-      stars: json["stargazers_count"],
-      description: json["description"],
-      language: json["language"],
+      name: json["name"]?? "",
+      fullName: json["full_name"]?? "",
+      stars: json["stargazers_count"]?? 0,
+      description: json["description"]?? "",
+      language: json["language"]?? "",
       topics: List<String>.from(json["topics"]),
-      avatar: Image.network(json["owner"]["avatar_url"]),
+      avatar: Image.network(json["owner"]["avatar_url"]?? ""),
     );
   }
 }

@@ -32,8 +32,7 @@ class MyApp extends StatelessWidget {
                 scrolledUnderElevation: 2,
               ),
               chipTheme: ChipThemeData(
-                side: BorderSide.none,
-                backgroundColor: Colors.grey.shade200,
+                side: BorderSide(color: Colors.grey.shade400),
                 iconTheme: IconThemeData(color: Colors.grey.shade800),
               ),
             ),
@@ -48,8 +47,7 @@ class MyApp extends StatelessWidget {
                 scrolledUnderElevation: 2,
               ),
               chipTheme: ChipThemeData(
-                side: BorderSide.none,
-                backgroundColor: Colors.grey.shade800,
+                side: BorderSide(color: Colors.grey.shade800),
                 iconTheme: IconThemeData(color: Colors.grey.shade300),
               ),
             ),

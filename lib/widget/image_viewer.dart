@@ -19,6 +19,7 @@ class _ImageViewerState extends State<ImageViewer> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
       );
+      animateToDot(index);
     }
   }
 
@@ -35,8 +36,13 @@ class _ImageViewerState extends State<ImageViewer> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (widget.images.length > 1 && widget.images[1] is Image) {
-      precacheImage((widget.images[1] as Image).image, context);
+    // if (widget.images.length > 1 && widget.images[1] is Image) {
+    //   precacheImage((widget.images[1] as Image).image, context);
+    // }
+    for (Widget image in widget.images) {
+      if (image is Image) {
+        precacheImage(image.image, context);
+      }
     }
   }
 
@@ -46,11 +52,11 @@ class _ImageViewerState extends State<ImageViewer> {
       children: [
         PageView.builder(
           onPageChanged: (value) {
-            widget.images.skip(value + 1).take(2).forEach((element) {
-              if (element is Image) {
-                precacheImage(element.image, context);
-              }
-            });
+            // widget.images.skip(value + 1).take(2).forEach((element) {
+            //   if (element is Image) {
+            //     precacheImage(element.image, context);
+            //   }
+            // });
             animateToDot(value);
             setState(() {
               _currentImageIndex = value;
@@ -63,24 +69,38 @@ class _ImageViewerState extends State<ImageViewer> {
             return widget.images[index];
           },
         ),
-        if (_currentImageIndex > 0)
-          Align(
-            alignment: Alignment.centerLeft,
+        Align(
+          alignment: Alignment.centerLeft,
+          child: AnimatedOpacity(
+            opacity: _currentImageIndex > 0 ? 1 : 0,
+            duration: const Duration(milliseconds: 300),
             child: IconButton.filledTonal(
-                onPressed: () => animateToPage(_currentImageIndex - 1),
-                icon: const Icon(Icons.arrow_back)),
+              color: Theme.of(context).iconTheme.color!.withAlpha(200),
+              style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.black26)),
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => animateToPage(_currentImageIndex - 1),
+            ),
           ),
-        if (_currentImageIndex < widget.images.length - 1)
-          Align(
-            alignment: Alignment.centerRight,
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: AnimatedOpacity(
+            opacity: _currentImageIndex < widget.images.length - 1 ? 1 : 0,
+            duration: const Duration(milliseconds: 300),
             child: IconButton.filledTonal(
-                onPressed: () => animateToPage(_currentImageIndex + 1),
-                icon: const Icon(Icons.arrow_forward)),
+              color: Theme.of(context).iconTheme.color!.withAlpha(200),
+              style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.black26)),
+              icon: const Icon(Icons.arrow_forward),
+              onPressed: () => animateToPage(_currentImageIndex + 1),
+            ),
           ),
+        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: SizedBox(
-            height: 20,
+            height: 14,
             child: IgnorePointer(
               child: ListView.builder(
                 controller: _dotsScrollController,
@@ -90,7 +110,7 @@ class _ImageViewerState extends State<ImageViewer> {
                 itemCount: widget.images.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(1.5),
+                    padding: const EdgeInsets.symmetric(horizontal: 1.5),
                     child: CircleAvatar(
                       radius: 6.0,
                       backgroundColor:

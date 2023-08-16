@@ -130,8 +130,7 @@ void showSearchResults(BuildContext context, String chipText) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            PostsPage(query: query, queryText: queryText),
+        builder: (context) => PostsPage(query: query, queryText: queryText),
       ),
     );
   }

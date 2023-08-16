@@ -20,6 +20,7 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 3,
       child: Column(
         children: [
           SizedBox(
@@ -43,7 +44,7 @@ class _PostCardState extends State<PostCard> {
               },
             ),
           ),
-          const Divider(),
+          const SizedBox(height: 4.0,),
           ListTile(
             isThreeLine: true,
             title: Text(

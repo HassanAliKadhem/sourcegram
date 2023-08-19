@@ -9,26 +9,26 @@ class ImageViewer extends StatefulWidget {
 
 class _ImageViewerState extends State<ImageViewer> {
   final PageController _pageController = PageController();
-  final ScrollController _dotsScrollController = ScrollController();
+  final PageController _dotsPageController =
+      PageController(viewportFraction: 1 / 7);
+  final Duration _duration = const Duration(milliseconds: 300);
 
   int _currentImageIndex = 0;
   void animateToPage(int index) {
     if (index > -1 && index < widget.images.length) {
       _pageController.animateToPage(
         index,
-        duration: const Duration(milliseconds: 300),
+        duration: _duration,
         curve: Curves.easeIn,
       );
-      animateToDot(index);
+      // animateToDot(index);
     }
   }
 
   void animateToDot(int index) {
-    _dotsScrollController.animateTo(
-      16.0 * index > _dotsScrollController.position.maxScrollExtent
-          ? _dotsScrollController.position.maxScrollExtent
-          : 16.0 * index,
-      duration: const Duration(milliseconds: 300),
+    _dotsPageController.animateToPage(
+      index,
+      duration: _duration,
       curve: Curves.easeIn,
     );
   }
@@ -36,10 +36,7 @@ class _ImageViewerState extends State<ImageViewer> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // if (widget.images.length > 1 && widget.images[1] is Image) {
-    //   precacheImage((widget.images[1] as Image).image, context);
-    // }
-    for (Widget image in widget.images) {
+    for (var image in widget.images) {
       if (image is Image) {
         precacheImage(image.image, context);
       }
@@ -51,29 +48,24 @@ class _ImageViewerState extends State<ImageViewer> {
     return Stack(
       children: [
         PageView.builder(
-          onPageChanged: (value) {
-            // widget.images.skip(value + 1).take(2).forEach((element) {
-            //   if (element is Image) {
-            //     precacheImage(element.image, context);
-            //   }
-            // });
-            animateToDot(value);
-            setState(() {
-              _currentImageIndex = value;
-            });
-          },
           controller: _pageController,
           scrollDirection: Axis.horizontal,
           itemCount: widget.images.length,
           itemBuilder: (context, index) {
             return widget.images[index];
           },
+          onPageChanged: (value) {
+            animateToDot(value);
+            setState(() {
+              _currentImageIndex = value;
+            });
+          },
         ),
         Align(
           alignment: Alignment.centerLeft,
           child: AnimatedOpacity(
             opacity: _currentImageIndex > 0 ? 1 : 0,
-            duration: const Duration(milliseconds: 300),
+            duration: _duration,
             child: IconButton.filledTonal(
               color: Theme.of(context).iconTheme.color!.withAlpha(200),
               style: const ButtonStyle(
@@ -87,7 +79,7 @@ class _ImageViewerState extends State<ImageViewer> {
           alignment: Alignment.centerRight,
           child: AnimatedOpacity(
             opacity: _currentImageIndex < widget.images.length - 1 ? 1 : 0,
-            duration: const Duration(milliseconds: 300),
+            duration: _duration,
             child: IconButton.filledTonal(
               color: Theme.of(context).iconTheme.color!.withAlpha(200),
               style: const ButtonStyle(
@@ -100,25 +92,25 @@ class _ImageViewerState extends State<ImageViewer> {
         Align(
           alignment: Alignment.bottomCenter,
           child: SizedBox(
-            height: 14,
-            child: IgnorePointer(
-              child: ListView.builder(
-                controller: _dotsScrollController,
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemExtent: 16,
-                itemCount: widget.images.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 1.5),
-                    child: CircleAvatar(
-                      radius: 6.0,
-                      backgroundColor:
-                          _currentImageIndex == index ? Colors.white : null,
-                    ),
-                  );
-                },
-              ),
+            height: 10,
+            width: 14 * 7,
+            child: PageView.builder(
+              controller: _dotsPageController,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: widget.images.length,
+              itemBuilder: (context, index) {
+                return AnimatedPadding(
+                  duration: _duration,
+                  padding: EdgeInsets.all(_currentImageIndex + 2 < index ||
+                          _currentImageIndex - 2 > index
+                      ? 2.5
+                      : 0.0),
+                  child: CircleAvatar(
+                    backgroundColor:
+                        _currentImageIndex == index ? Colors.white : null,
+                  ),
+                );
+              },
             ),
           ),
         ),

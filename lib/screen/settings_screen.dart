@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/data.dart';
+import '../util/launch_uri.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -63,6 +64,12 @@ class SettingsScreen extends StatelessWidget {
           title: Text("Made by"),
           subtitle: Text("Hasan Kadhem"),
           leading: Icon(Icons.person),
+        ),
+        ListTile(
+          title: Text("My other apps & games"),
+          subtitle: Text("Open store"),
+          leading: Icon(Icons.launch),
+          onTap: () => launchUri(Uri.parse("https://play.google.com/store/apps/developer?id=Hasan+Kadhem+Dev")),
         ),
         const ListTile(
           title: Text("Made using"),

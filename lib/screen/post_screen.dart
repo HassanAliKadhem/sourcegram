@@ -12,17 +12,18 @@ class PostsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: [
-              const Text("Search "),
-              Chip(label: Text(queryText)),
-            ],
-          ),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            const Text("Search "),
+            Chip(label: Text(queryText)),
+          ],
         ),
-        body: PostsScreen(
-          query: query,
-        ));
+      ),
+      body: PostsScreen(
+        query: query,
+      ),
+    );
   }
 }
 
@@ -39,16 +40,16 @@ class _PostsScreenState extends State<PostsScreen> {
   int page = 1;
   bool lastPage = false;
 
-  void loadPosts() {
+  void loadPosts(BuildContext context) {
     if (widget.query == null) {
-      dataSource.getTodayPosts(page: page).then((value) {
+      Data.of(context).getTodayPosts(page: page).then((value) {
         setState(() {
           lastPage = value.isEmpty;
           posts.addAll(value);
         });
       });
     } else {
-      dataSource.getQueryPosts(widget.query!, page: page).then((value) {
+      Data.of(context).getQueryPosts(widget.query!, page: page).then((value) {
         setState(() {
           lastPage = value.isEmpty;
           posts.addAll(value);
@@ -58,42 +59,25 @@ class _PostsScreenState extends State<PostsScreen> {
     page++;
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   posts.clear();
-  //   loadPosts();
-  // }
-
-  @override
-  void initState() {
-    super.initState();
-    loadPosts();
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (posts.isNotEmpty) {
-      return ListView.separated(
-        padding: const EdgeInsets.all(12.0),
-        itemCount: !lastPage ? posts.length + 1 : posts.length,
-        itemBuilder: (context, index) {
-          if (index == posts.length && !lastPage) {
-            loadPosts();
-            return const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else {
-            return PostCard(post: posts[index]);
-          }
-        },
-        separatorBuilder: (context, index) => const SizedBox(height: 8.0),
-      );
-    } else {
-      return const Center(child: CircularProgressIndicator.adaptive());
-    }
+    return ListView.separated(
+      padding: const EdgeInsets.all(12.0),
+      itemCount: !lastPage ? posts.length + 1 : posts.length,
+      itemBuilder: (context, index) {
+        if (index == posts.length && !lastPage) {
+          loadPosts(context);
+          return const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
+          );
+        } else {
+          return PostCard(post: posts[index]);
+        }
+      },
+      separatorBuilder: (context, index) => const SizedBox(height: 8.0),
+    );
   }
 }

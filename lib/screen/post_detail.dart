@@ -18,9 +18,9 @@ class PostDetailsScreen extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: ListTile(
-              title: Text(post.description),
+          SliverList.list(children: [
+            ListTile(
+              title: SelectableText(post.description),
               leading: post.avatar,
               trailing: Column(
                 children: [
@@ -29,9 +29,7 @@ class PostDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
+            Padding(
               padding: const EdgeInsets.all(8.0),
               child: Wrap(
                 alignment: WrapAlignment.start,
@@ -52,28 +50,26 @@ class PostDetailsScreen extends StatelessWidget {
                       ))),
               ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: SelectionArea(
-              child: post.readME == ""
-                  ? Text(post.description)
-                  : Markdown(
+            const Divider(indent: 10, endIndent: 10,),
+            post.readME == ""
+                ? Text(post.description)
+                : Markdown(
+                    data: post.readME,
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                      data: post.readME,
-                      selectable: true,
-                      onTapLink: (text, href, title) {
-                        if (href != null) {
-                          launchUri(Uri.parse(href));
-                        }
-                      },
-                      imageBuilder: (uri, title, alt) => Image.network(
-                        uri.toString(),
-                        errorBuilder: (context, error, stackTrace) =>
-                            SvgPicture.network(uri.toString()),
-                      ),
+                    selectable: true,
+                    onTapLink: (text, href, title) {
+                      if (href != null) {
+                        launchUri(Uri.parse(href));
+                      }
+                    },
+                    imageBuilder: (uri, title, alt) => Image.network(
+                      uri.toString(),
+                      errorBuilder: (context, error, stackTrace) =>
+                          SvgPicture.network(uri.toString()),
                     ),
-            ),
-          ),
+                  ),
+          ]),
         ],
       ),
     );

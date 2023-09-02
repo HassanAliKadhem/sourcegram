@@ -26,7 +26,7 @@ class _PostCardState extends State<PostCard> {
           SizedBox(
             height: 400,
             child: FutureBuilder<(List<Widget>, String)>(
-              future: dataSource.getImagesAndReadMe(widget.post.fullName),
+              future: Data.of(context).getImagesAndReadMe(widget.post.fullName),
               builder: (context, snapshot) {
                 if (widget.post.images.isNotEmpty && widget.post.readME.isNotEmpty) {
                   return ImageViewer(images: widget.post.images);

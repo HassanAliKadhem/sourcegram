@@ -50,7 +50,7 @@ class _SearchScreenState extends State<SearchScreen> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        const Divider(),
+        // const Divider(),
         Wrap(
           children: ages.keys
               .map((e) => Padding(
@@ -69,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        const Divider(),
+        // const Divider(),
         Wrap(
           children: languages
               .map((e) => Padding(
@@ -88,7 +88,7 @@ class _SearchScreenState extends State<SearchScreen> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        const Divider(),
+        // const Divider(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(

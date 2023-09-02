@@ -6,10 +6,6 @@ import '../util/launch_uri.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
-  void changeThemeMode(ThemeMode newMode) {
-    config.themeMode = newMode;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -20,39 +16,36 @@ class SettingsScreen extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
+        const ListTile(
+          title: Text("Theme Mode"),
+          leading: Icon(Icons.design_services),
+        ),
         Card(
-          margin: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: ListenableBuilder(
-              listenable: config,
-              child: const ListTile(
-                title: Text("Theme Mode"),
-                leading: Icon(Icons.design_services),
-              ),
-              builder: (context, child) {
-                return Column(
-                  children: [
-                    child!,
-                    RadioListTile<ThemeMode>(
-                      title: const Text("🅰️ System"),
-                      value: ThemeMode.system,
-                      groupValue: config.themeMode,
-                      onChanged: (value) => changeThemeMode(value!),
-                    ),
-                    RadioListTile<ThemeMode>(
-                      title: const Text("🌑 Dark"),
-                      value: ThemeMode.dark,
-                      groupValue: config.themeMode,
-                      onChanged: (value) => changeThemeMode(value!),
-                    ),
-                    RadioListTile<ThemeMode>(
-                      title: const Text("☀️ Light"),
-                      value: ThemeMode.light,
-                      groupValue: config.themeMode,
-                      onChanged: (value) => changeThemeMode(value!),
-                    ),
-                  ],
-                );
-              }),
+          margin: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: StatefulBuilder(builder: (context, setState) {
+            return Column(
+              children: [
+                RadioListTile<ThemeMode>(
+                  title: const Text("🅰️ System"),
+                  value: ThemeMode.system,
+                  groupValue: Config.of(context).themeMode,
+                  onChanged: (value) => Config.of(context).themeMode = value!,
+                ),
+                RadioListTile<ThemeMode>(
+                  title: const Text("🌙 Dark"),
+                  value: ThemeMode.dark,
+                  groupValue: Config.of(context).themeMode,
+                  onChanged: (value) => Config.of(context).themeMode = value!,
+                ),
+                RadioListTile<ThemeMode>(
+                  title: const Text("☀️ Light"),
+                  value: ThemeMode.light,
+                  groupValue: Config.of(context).themeMode,
+                  onChanged: (value) => Config.of(context).themeMode = value!,
+                ),
+              ],
+            );
+          }),
         ),
         const ListTile(
           title: Text(
@@ -65,16 +58,17 @@ class SettingsScreen extends StatelessWidget {
           subtitle: Text("Hasan Kadhem"),
           leading: Icon(Icons.person),
         ),
-        ListTile(
-          title: Text("My other apps & games"),
-          subtitle: Text("Open store"),
-          leading: Icon(Icons.launch),
-          onTap: () => launchUri(Uri.parse("https://play.google.com/store/apps/developer?id=Hasan+Kadhem+Dev")),
-        ),
         const ListTile(
           title: Text("Made using"),
           subtitle: Text("Flutter"),
           leading: FlutterLogo(),
+        ),
+        ListTile(
+          title: const Text("My other apps & games"),
+          subtitle: const Text("Open store"),
+          leading: const Icon(Icons.launch),
+          onTap: () => launchUri(Uri.parse(
+              "https://play.google.com/store/apps/developer?id=Hasan+Kadhem+Dev")),
         ),
         const AboutListTile(
           icon: Icon(Icons.info),

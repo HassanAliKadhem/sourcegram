@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'search_screen.dart';
 import '../model/post.dart';
@@ -15,6 +16,12 @@ class PostDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(post.fullName),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () => Share.share(post.fullName,subject: post.fullName),
+          ),
+        ],
       ),
       body: CustomScrollView(
         slivers: [
@@ -50,7 +57,10 @@ class PostDetailsScreen extends StatelessWidget {
                       ))),
               ),
             ),
-            const Divider(indent: 10, endIndent: 10,),
+            const Divider(
+              indent: 10,
+              endIndent: 10,
+            ),
             post.readME == ""
                 ? Text(post.description)
                 : Markdown(

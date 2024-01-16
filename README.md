@@ -1,16 +1,18 @@
 # SourceGram
 
-an app to explore open source projects
+an app to explore open source projects. it's instagram for source code hence the name SourceGram
 
-## Getting Started
+it has a home page where you can see the latest repository of the day
+![Alt text](Screenshot_1705411637.png)
 
-This project is a starting point for a Flutter application.
+you can open the post to see the repository details and read their Readme.md file
+![Alt text](Screenshot_1705411650.png)
 
-A few resources to get you started if this is your first Flutter project:
+you can also share the page
+![Alt text](Screenshot_1705411677.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+There is a search page where you can search by time range, programming language or just a normal text search
+![Alt text](Screenshot_1705411623.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+the results page
+![Alt text](Screenshot_1705411620.png)

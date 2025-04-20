@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 RegExp imgTagRegex =
-RegExp(r'(?<=!\[[^\(]*?\]\().+?(?=[ \)])|(?<=<img src=").+?(?=")');
+    RegExp(r'(?<=!\[[^\(]*?\]\().+?(?=[ \)])|(?<=<img src=").+?(?=")');
 
 List<Image> parseReadme(String readME, String baseUrl) {
   List<Image> images = <Image>[];

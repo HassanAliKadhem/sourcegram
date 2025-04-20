@@ -72,7 +72,7 @@ class SettingsScreen extends StatelessWidget {
         ),
         const AboutListTile(
           icon: Icon(Icons.info),
-          applicationVersion: "1.0.0",
+          applicationVersion: "1.1.0",
         ),
       ],
     );

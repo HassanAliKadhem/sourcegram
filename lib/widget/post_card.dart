@@ -28,7 +28,8 @@ class _PostCardState extends State<PostCard> {
             child: FutureBuilder<(List<Widget>, String)>(
               future: Data.of(context).getImagesAndReadMe(widget.post.fullName),
               builder: (context, snapshot) {
-                if (widget.post.images.isNotEmpty && widget.post.readME.isNotEmpty) {
+                if (widget.post.images.isNotEmpty &&
+                    widget.post.readME.isNotEmpty) {
                   return ImageViewer(images: widget.post.images);
                 } else if (snapshot.hasData) {
                   final (images, readME) = snapshot.data!;
@@ -44,7 +45,9 @@ class _PostCardState extends State<PostCard> {
               },
             ),
           ),
-          const SizedBox(height: 4.0,),
+          const SizedBox(
+            height: 4.0,
+          ),
           ListTile(
             isThreeLine: true,
             title: Text(
@@ -64,7 +67,7 @@ class _PostCardState extends State<PostCard> {
                 Chip(
                     label: Text(
                   widget.post.language,
-                  textScaleFactor: 0.8,
+                  textScaler: const TextScaler.linear(0.8),
                 )),
                 const SizedBox(width: 8.0),
               ],

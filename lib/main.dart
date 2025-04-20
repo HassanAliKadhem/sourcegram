@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'model/data.dart';
 
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           elevation: 2,
           scrolledUnderElevation: 2,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            systemNavigationBarColor: Colors.transparent,
+          ),
         ),
         chipTheme: ChipThemeData(
           side: BorderSide(color: Colors.grey.shade400),
@@ -49,6 +53,9 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           elevation: 2,
           scrolledUnderElevation: 2,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            systemNavigationBarColor: Colors.transparent,
+          ),
         ),
         chipTheme: ChipThemeData(
           side: BorderSide(color: Colors.grey.shade800),

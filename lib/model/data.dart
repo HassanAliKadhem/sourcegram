@@ -9,7 +9,6 @@ import 'sample_data.dart';
 
 class AppConfig extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
-
   ThemeMode get themeMode => _themeMode;
 
   set themeMode(ThemeMode newMode) {
@@ -100,7 +99,8 @@ class GithubData implements DataSource {
     "/main/README.markdown",
   ];
 
-  final String today = "${DateTime.now().year.toString()}-${DateTime.now().month.toString().padLeft(2, "0")}-${DateTime.now().day.toString().padLeft(2, "0")}";
+  final String today =
+      "${DateTime.now().year.toString()}-${DateTime.now().month.toString().padLeft(2, "0")}-${DateTime.now().day.toString().padLeft(2, "0")}";
   final String lastWeek = "";
 
   @override
